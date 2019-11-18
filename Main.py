@@ -46,6 +46,7 @@ title_image.set_colorkey(WHITE)
 title_text_image = pygame.image.load('title_text.png').convert_alpha()
 play_button = TitleScreen(48, screen, 350, 575, "Press any key to play!")
 play_button.colour = BLACK
+git_gud = pygame.image.load('git gud.png').convert()
 
 screen.fill(WHITE)
 screen.blit(title_image, (0, 0))
@@ -158,4 +159,7 @@ while not done:
     clock.tick(60)
 
 # Close the window and quit.
+screen.blit(git_gud, (0, 0))
+pygame.display.update()
+time.sleep(2)
 pygame.quit()
