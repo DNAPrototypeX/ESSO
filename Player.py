@@ -54,7 +54,7 @@ class Player:
                 .colliderect(platform.rect))
 
     def die(self, x):
-        if self.rect.y > 750 or self.health < 0:
+        if self.rect.y > 750 or self.health < 0 or self.rect.x <= - 100 or self.rect.x >= 1150:
             self.stock_remaining -= 1
             self.rect.x = x
             self.rect.y = 400
