@@ -1,7 +1,6 @@
 # Paul Moore
 
 import pygame
-import sys
 from TitleScreen import TitleScreen
 from Platform import Platform
 from Player import Player
