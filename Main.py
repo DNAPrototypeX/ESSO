@@ -59,8 +59,8 @@ pygame.mixer.music.play(-1, 0.0)
 
 # Players
 players = []
-players.append(Player(screen, RED, 300, 400, 20, 40, platforms))
-players.append(Player(screen, GREEN, 725, 400, 20, 40, platforms))
+players.append(Player(screen, RED, 300, 400, 20, 40, platforms, 0))
+players.append(Player(screen, GREEN, 725, 400, 20, 40, platforms, 1))
 player_1_text = TitleScreen(24, screen, 160, 600, "Player 1's stock:")
 player_2_text = TitleScreen(24, screen, 460, 600, "Player 2's stock:")
 player_1_health = TitleScreen(24, screen, 160, 550, "Player 1's Health:")
@@ -92,27 +92,39 @@ while not done:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_a:
                 players[0].x_speed = -3
+                players[0].direction = "LEFT"
             elif event.key == pygame.K_d:
                 players[0].x_speed = 3
+                players[0].direction = "RIGHT"
             elif event.key == pygame.K_w:
                 if players[0].jumps_available > 0:
                     players[0].jumping = True
+            elif event.key == pygame.K_SPACE:
+                players[0].attacking = True
             if event.key == pygame.K_LEFT:
                 players[1].x_speed = -3
+                players[1]. direction = "LEFT"
             elif event.key == pygame.K_RIGHT:
                 players[1].x_speed = 3
+                players[1].direction = "RIGHT"
             elif event.key == pygame.K_UP:
                 if players[1].jumps_available > 0:
                     players[1].jumping = True
+            elif event.key == pygame.K_KP_ENTER:
+                players[1].attacking = True
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_a:
                 players[0].x_speed = 0
             elif event.key == pygame.K_d:
                 players[0].x_speed = 0
+            elif event.key == pygame.K_SPACE:
+                players[0].attacking = False
             if event.key == pygame.K_LEFT:
                 players[1].x_speed = 0
             elif event.key == pygame.K_RIGHT:
                 players[1].x_speed = 0
+            elif event.key == pygame.K_KP_ENTER:
+                players[1].attacking = False
 
     # --- Game logic should go here
 
@@ -122,6 +134,7 @@ while not done:
             player.die(300)
         else:
             player.die(725)
+
         if player.stock_remaining == 0:
             done = True
 
@@ -138,7 +151,7 @@ while not done:
     # Players
     for player in players:
         player.draw()
-
+        player.attack(players)
     # Stocks
     for text in player_info:
         text.drawText()

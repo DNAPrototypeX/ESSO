@@ -1,8 +1,7 @@
 import pygame
 
-
 class Player:
-    def __init__(self, screen, colour, x, y, width, height, platforms):
+    def __init__(self, screen, colour, x, y, width, height, platforms, ID):
         self.colour = colour
         self.screen = screen
         self.x_speed = 0
@@ -16,9 +15,15 @@ class Player:
         self.stock_remaining = 3
         self.health = 100
         self.attacking = False
+        self.sword_offset = 0
+        self.sword_rect = pygame.Rect(self.rect.x + self.sword_offset, self.rect.y + 25, 20, 10)
+        self.ID = ID
+        self.direction = ""
 
     def draw(self):
         pygame.draw.rect(self.screen, self.colour, self.rect)
+        if self.attacking:
+            pygame.draw.rect(self.screen, self.colour, self.sword_rect)
 
     def Move(self):
         for platform in self.platforms:
@@ -47,6 +52,8 @@ class Player:
             self.y_speed = 3
         self.on_ground = False
         self.rect.move_ip(self.x_speed, self.y_speed)
+        self.sword_rect.x = self.rect.x + self.sword_offset
+        self.sword_rect.y = self.rect.y + 15
 
     def is_on(self, platform):
         return (pygame.Rect(self.rect.x, self.rect.y + self.y_speed + 1,
@@ -63,7 +70,19 @@ class Player:
     def draw_health_bar(self, x):
         pygame.draw.rect(self.screen, (0, 255, 0), (x, 550, self.health, 20))
 
-    # def attack(self):
+    def attack(self, players):
+        if self.direction == "RIGHT":
+            self.sword_offset = 20
+        else:
+            self.sword_offset = -20
+        if self.attacking:
+            if self.ID == 0:
+                if pygame.Rect(self.sword_rect).colliderect(players[1]):
+                    players[1].health -= 1
+            elif self.ID == 1:
+                if pygame.Rect(self.sword_rect).colliderect(players[0]):
+                    players[0].health -= 1
+
 
 
 
