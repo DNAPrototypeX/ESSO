@@ -28,22 +28,20 @@ RGB_ingame = (255, 0, 0)
 font = pygame.font.SysFont(None, 48)
 
 def character_select(ID):
-    r = 255
-    g = 0
-    b = 0
-    RGB = (255, 0, 0)
     p1_choose = TitleScreen(74, screen, 350, 100, "Player 1 Choose Colour.")
     p2_choose = TitleScreen(74, screen, 350, 100, "Player 2 Choose Colour")
     Red = pygame.Rect(100, 50, 20, 20)
     Blue = pygame.Rect(200, 50, 20, 20)
     Green = pygame.Rect(300, 50, 20, 20)
-    RGB_rect = pygame.Rect(400, 50, 20, 20)
     done = False
     while not done:
+        if ID == 0:
+            p1_choose.drawText()
+        else:
+            p2_choose.drawText()
         pygame.draw.rect(screen, RED, Red)
         pygame.draw.rect(screen, BLUE, Blue)
         pygame.draw.rect(screen, GREEN, Green)
-        p1_choose.drawText()
         pygame.display.update()
         m_pos = pygame.mouse.get_pos()
         for event in pygame.event.get():
