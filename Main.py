@@ -54,7 +54,7 @@ def character_select(ID):
                         players[0].colour = BLUE
                         done = True
                     elif pygame.Rect(Green).collidepoint(m_pos):
-                        players[0].colour = Green
+                        players[0].colour = GREEN
                         done = True
                 elif ID == 1:
                     if pygame.Rect(Red).collidepoint(m_pos):
@@ -64,7 +64,7 @@ def character_select(ID):
                         players[1].colour = BLUE
                         done = True
                     elif pygame.Rect(Green).collidepoint(m_pos):
-                        players[1].colour = Green
+                        players[1].colour = GREEN
                         done = True
 
 # Platforms
