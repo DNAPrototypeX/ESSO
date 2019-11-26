@@ -1,5 +1,6 @@
 import pygame
 
+
 class Player:
     def __init__(self, screen, colour, x, y, width, height, platforms, ID):
         self.colour = colour
@@ -19,8 +20,21 @@ class Player:
         self.sword_rect = pygame.Rect(self.rect.x + self.sword_offset, self.rect.y + 25, 20, 10)
         self.ID = ID
         self.direction = ""
+        self.is_RGB = False
+        self.RGB = [255, 0, 0]
 
     def draw(self):
+        if self.is_RGB:
+            if self.RGB[0] > 0 and self.RGB[2] == 0:
+                self.RGB[0] -= 5
+                self.RGB[1] += 5
+            elif self.RGB[1] > 0 and self.RGB[0] == 0:
+                self.RGB[1] -= 5
+                self.RGB[2] += 5
+            elif self.RGB[2] > 0 and self.RGB[1] == 0:
+                self.RGB[0] += 5
+                self.RGB[2] -= 5
+            self.colour = self.RGB
         pygame.draw.rect(self.screen, self.colour, self.rect)
         if self.attacking:
             pygame.draw.rect(self.screen, self.colour, self.sword_rect)
@@ -29,7 +43,7 @@ class Player:
         for platform in self.platforms:
             if self.is_on(platform):
                 if self.rect.y < platform.rect.y + 39:
-                    self.rect.bottom = platform.rect.top - 3
+                    self.rect.bottom = platform.rect.top - 4
                     self.on_ground = True
                     self.jumps_available = 2
                 else:
@@ -39,17 +53,17 @@ class Player:
             self.y_speed = 0
 
         if self.jumping:
-            if self.counter < 30:
+            if self.counter < 25:
                 self.counter += 1
                 self.jumping = True
-                self.y_speed = -3
+                self.y_speed = -4
             else:
                 self.on_ground = False
                 self.jumping = False
                 self.counter = 0
                 self.jumps_available -= 1
         else:
-            self.y_speed = 3
+            self.y_speed = 4
         self.on_ground = False
         self.rect.move_ip(self.x_speed, self.y_speed)
         self.sword_rect.x = self.rect.x + self.sword_offset
@@ -82,11 +96,3 @@ class Player:
             elif self.ID == 1:
                 if pygame.Rect(self.sword_rect).colliderect(players[0]):
                     players[0].health -= 1
-
-
-
-
-
-
-
-

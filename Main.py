@@ -5,74 +5,121 @@ def main():
     from Platform import Platform
     from Player import Player
     import time
+    import sys
 
     pygame.init()
     size = (1050, 650)
     screen = pygame.display.set_mode(size)
     pygame.display.set_caption("Epic Smash Siblings Omega")
-    done = False
     clock = pygame.time.Clock()
 
     # Colours
-    BLACK = (0, 0, 0)
-    WHITE = (255, 255, 255)
-    GREEN = (0, 255, 0)
-    RED = (255, 0, 0)
-    BLUE = (0, 0, 255)
+    black = (0, 0, 0)
+    white = (255, 255, 255)
+    green = (0, 255, 0)
+    red = (255, 0, 0)
+    blue = (0, 0, 255)
+    yellow = (255, 255, 0)
+    purple = (255, 0, 255)
 
     # Vars
-    font = pygame.font.SysFont(None, 48)
     done = False
 
     def character_select(ID):
         p1_choose = TitleScreen(74, screen, 250, 100, "Player 1 Choose Colour.")
         p2_choose = TitleScreen(74, screen, 250, 100, "Player 2 Choose Colour")
-        Red_button = pygame.Rect(400, 200, 20, 20)
-        Blue_button = pygame.Rect(500, 200, 20, 20)
-        Green_button = pygame.Rect(600, 200, 20, 20)
+        red_button = pygame.Rect(400, 200, 20, 20)
+        yellow_button = pygame.Rect(450, 200, 20, 20)
+        blue_button = pygame.Rect(500, 200, 20, 20)
+        purple_button = pygame.Rect(550, 200, 20, 20)
+        green_button = pygame.Rect(600, 200, 20, 20)
+        rgb_button = pygame.Rect(500, 250, 20, 20)
+        r = 255
+        g = 0
+        b = 0
+        RGB = (r, g, b)
         done = False
         while not done:
+            if r > 0 and b == 0:
+                r -= 5
+                g += 5
+                RGB = (r, g, b)
+            elif g > 0 and r == 0:
+                g -= 5
+                b += 5
+                RGB = (r, g, b)
+            elif b > 0 and g == 0:
+                r += 5
+                b -= 5
+                RGB = (r, g, b)
             if ID == 0:
                 p1_choose.drawText()
             else:
                 screen.blit(title_image, (0, 0))
                 p2_choose.drawText()
-            pygame.draw.rect(screen, BLACK, (390, 190, 240, 40))
-            pygame.draw.rect(screen, RED, Red_button)
-            pygame.draw.rect(screen, BLUE, Blue_button)
-            pygame.draw.rect(screen, GREEN, Green_button)
+            pygame.draw.rect(screen, black, (390, 190, 240, 40))
+            pygame.draw.rect(screen, red, red_button)
+            pygame.draw.rect(screen, blue, blue_button)
+            pygame.draw.rect(screen, green, green_button)
+            pygame.draw.rect(screen, yellow, yellow_button)
+            pygame.draw.rect(screen, purple, purple_button)
+            pygame.draw.rect(screen, RGB, rgb_button)
             pygame.display.update()
             m_pos = pygame.mouse.get_pos()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    pygame.quit()
+                    sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if ID == 0:
-                        if pygame.Rect(Red_button).collidepoint(m_pos):
-                            players[0].colour = RED
+                        if pygame.Rect(red_button).collidepoint(m_pos[0], m_pos[1]):
+                            players[0].colour = red
                             click_sound.play()
-                            done = True
-                        elif pygame.Rect(Blue_button).collidepoint(m_pos):
-                            players[0].colour = BLUE
+                            return
+                        elif pygame.Rect(blue_button).collidepoint(m_pos[0], m_pos[1]):
+                            players[0].colour = blue
                             click_sound.play()
-                            done = True
-                        elif pygame.Rect(Green_button).collidepoint(m_pos):
-                            players[0].colour = GREEN
+                            return
+                        elif pygame.Rect(green_button).collidepoint(m_pos[0], m_pos[1]):
+                            players[0].colour = green
                             click_sound.play()
-                            done = True
+                            return
+                        elif pygame.Rect(yellow_button).collidepoint(m_pos[0], m_pos[1]):
+                            players[0].colour = yellow
+                            click_sound.play()
+                            return
+                        elif pygame.Rect(purple_button).collidepoint(m_pos[0], m_pos[1]):
+                            players[0].colour = purple
+                            click_sound.play()
+                            return
+                        elif pygame.Rect(rgb_button).collidepoint(m_pos[0], m_pos[1]):
+                            players[0].is_RGB = True
+                            click_sound.play()
+                            return
                     elif ID == 1:
-                        if pygame.Rect(Red_button).collidepoint(m_pos):
-                            players[1].colour = RED
+                        if pygame.Rect(red_button).collidepoint(m_pos[0], m_pos[1]):
+                            players[1].colour = red
                             click_sound.play()
-                            done = True
-                        elif pygame.Rect(Blue_button).collidepoint(m_pos):
-                            players[1].colour = BLUE
+                            return
+                        elif pygame.Rect(blue_button).collidepoint(m_pos[0], m_pos[1]):
+                            players[1].colour = blue
                             click_sound.play()
-                            done = True
-                        elif pygame.Rect(Green_button).collidepoint(m_pos):
-                            players[1].colour = GREEN
+                            return
+                        elif pygame.Rect(green_button).collidepoint(m_pos[0], m_pos[1]):
+                            players[1].colour = green
                             click_sound.play()
-                            done = True
+                            return
+                        elif pygame.Rect(yellow_button).collidepoint(m_pos[0], m_pos[1]):
+                            players[1].colour = yellow
+                            click_sound.play()
+                            return
+                        elif pygame.Rect(purple_button).collidepoint(m_pos[0], m_pos[1]):
+                            players[1].colour = purple
+                            click_sound.play()
+                            return
+                        elif pygame.Rect(rgb_button).collidepoint(m_pos[0], m_pos[1]):
+                            players[1].is_RGB = True
+                            click_sound.play()
+                            return
 
     def restart():
         player_1_wins = TitleScreen(74, screen, 350, 250, "Player 1 Wins!")
@@ -85,37 +132,35 @@ def main():
             player_1_wins.drawText()
         elif players[0].stock_remaining == 0:
             player_2_wins.drawText()
-
+        pygame.display.update()
+        time.sleep(2)
         while True:
             pygame.init()
-            pygame.display.update()
-            time.sleep(2)
             screen.blit(git_gud, (0, 0))
             restart_text = TitleScreen(74, screen, 350, 250, "Play again? Y/N")
             restart_text.drawText()
             pygame.display.update()
             for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
+                if event.type == pygame.QUIT:
+                    sys.exit()
+                elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_y:
                         main()
                     elif event.key == pygame.K_n:
-                        pygame.quit()
-                        return
+                        sys.exit()
 
     # Platforms
-    platforms = []
-    platforms.append(Platform(screen, BLACK, 275, 450, 500, 40))
-    platforms.append(Platform(screen, BLACK, 325, 350, 125, 10))
-    platforms.append(Platform(screen, BLACK, 465, 250, 125, 10))
-    platforms.append(Platform(screen, BLACK, 600, 350, 125, 10))
+    platforms = [Platform(screen, black, 275, 450, 500, 40),
+                 Platform(screen, black, 325, 350, 125, 10),
+                 Platform(screen, black, 465, 250, 125, 10),
+                 Platform(screen, black, 600, 350, 125, 10)]
 
     # Main background image
     background_image = pygame.image.load('main_background.jpeg').convert()
 
     # Players
-    players = []
-    players.append(Player(screen, RED, 300, 400, 20, 40, platforms, 0))
-    players.append(Player(screen, GREEN, 725, 400, 20, 40, platforms, 1))
+    players = [Player(screen, red, 300, 400, 20, 40, platforms, 0),
+               Player(screen, green, 725, 400, 20, 40, platforms, 1)]
     player_1_text = TitleScreen(24, screen, 160, 600, "Player 1's stock:")
     player_2_text = TitleScreen(24, screen, 460, 600, "Player 2's stock:")
     player_1_health = TitleScreen(24, screen, 160, 550, "Player 1's Health:")
@@ -127,12 +172,12 @@ def main():
     pygame.mixer.music.load('title_screen_theme.wav')
     pygame.mixer.music.play(-1, 0.0)
     title_image = pygame.image.load('smash_cover.jpg').convert()
-    title_image.set_colorkey(WHITE)
+    title_image.set_colorkey(white)
     play_button = TitleScreen(48, screen, 350, 575, "Press any key to play!")
-    play_button.colour = BLACK
+    play_button.colour = black
     git_gud = pygame.image.load('git gud.png').convert()
 
-    screen.fill(WHITE)
+    screen.fill(white)
     screen.blit(title_image, (0, 0))
     pygame.display.update()
     character_select(0)
@@ -152,7 +197,7 @@ def main():
         # --- All events are detected here
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                done = True
+                sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_a:
                     players[0].x_speed = -3
@@ -204,7 +249,7 @@ def main():
                 done = True
 
         # --- Screen-clearing code goes here
-        screen.fill(WHITE)
+        screen.fill(white)
 
         # --- Drawing code should go here
         # Background
