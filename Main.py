@@ -28,95 +28,106 @@ def main():
     def character_select(ID):
         p1_choose = TitleScreen(74, screen, 250, 100, "Player 1 Choose Colour.")
         p2_choose = TitleScreen(74, screen, 250, 100, "Player 2 Choose Colour")
-        red_button = pygame.Rect(400, 200, 20, 20)
-        yellow_button = pygame.Rect(450, 200, 20, 20)
-        blue_button = pygame.Rect(500, 200, 20, 20)
-        purple_button = pygame.Rect(550, 200, 20, 20)
-        green_button = pygame.Rect(600, 200, 20, 20)
-        rgb_button = pygame.Rect(500, 250, 20, 20)
+
         r = 255
         g = 0
         b = 0
         RGB = (r, g, b)
+        colour_rects = [pygame.Rect(400, 200, 20, 20),
+                        pygame.Rect(450, 200, 20, 20),
+                        pygame.Rect(500, 200, 20, 20),
+                        pygame.Rect(550, 200, 20, 20),
+                        pygame.Rect(600, 200, 20, 20),
+                        pygame.Rect(500, 240, 20, 20)]
+        colour_list = [red, blue, green, yellow, purple, RGB]
         done = False
         while not done:
             if r > 0 and b == 0:
                 r -= 5
                 g += 5
-                RGB = (r, g, b)
+                colour_list[5] = (r, g, b)
             elif g > 0 and r == 0:
                 g -= 5
                 b += 5
-                RGB = (r, g, b)
+                colour_list[5] = (r, g, b)
             elif b > 0 and g == 0:
                 r += 5
                 b -= 5
-                RGB = (r, g, b)
+                colour_list[5] = (r, g, b)
             if ID == 0:
                 p1_choose.drawText()
             else:
                 screen.blit(title_image, (0, 0))
                 p2_choose.drawText()
             pygame.draw.rect(screen, black, (390, 190, 240, 40))
-            pygame.draw.rect(screen, red, red_button)
-            pygame.draw.rect(screen, blue, blue_button)
-            pygame.draw.rect(screen, green, green_button)
-            pygame.draw.rect(screen, yellow, yellow_button)
-            pygame.draw.rect(screen, purple, purple_button)
-            pygame.draw.rect(screen, RGB, rgb_button)
+            pygame.draw.rect(screen, black, (490, 230, 40, 40))
+            for i in range(len(colour_rects)):
+                if colour_rects[i].width == 40:
+                    pygame.draw.rect(screen, colour_list[i], colour_rects[i].move(-10, -10))
+                else:
+                    pygame.draw.rect(screen, colour_list[i], colour_rects[i])
+
             pygame.display.update()
             m_pos = pygame.mouse.get_pos()
+            for colour in colour_rects:
+                if pygame.Rect(colour).collidepoint(m_pos[0], m_pos[1]):
+                    colour.width = 40
+                    colour.height = 40
+                else:
+                    colour.width = 20
+                    colour.height = 20
+
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if ID == 0:
-                        if pygame.Rect(red_button).collidepoint(m_pos[0], m_pos[1]):
+                        if pygame.Rect(colour_rects[0]).collidepoint(m_pos[0], m_pos[1]):
                             players[0].colour = red
                             click_sound.play()
                             return
-                        elif pygame.Rect(blue_button).collidepoint(m_pos[0], m_pos[1]):
+                        elif pygame.Rect(colour_rects[1]).collidepoint(m_pos[0], m_pos[1]):
                             players[0].colour = blue
                             click_sound.play()
                             return
-                        elif pygame.Rect(green_button).collidepoint(m_pos[0], m_pos[1]):
+                        elif pygame.Rect(colour_rects[2]).collidepoint(m_pos[0], m_pos[1]):
                             players[0].colour = green
                             click_sound.play()
                             return
-                        elif pygame.Rect(yellow_button).collidepoint(m_pos[0], m_pos[1]):
+                        elif pygame.Rect(colour_rects[3]).collidepoint(m_pos[0], m_pos[1]):
                             players[0].colour = yellow
                             click_sound.play()
                             return
-                        elif pygame.Rect(purple_button).collidepoint(m_pos[0], m_pos[1]):
+                        elif pygame.Rect(colour_rects[4]).collidepoint(m_pos[0], m_pos[1]):
                             players[0].colour = purple
                             click_sound.play()
                             return
-                        elif pygame.Rect(rgb_button).collidepoint(m_pos[0], m_pos[1]):
+                        elif pygame.Rect(colour_rects[5]).collidepoint(m_pos[0], m_pos[1]):
                             players[0].is_RGB = True
                             click_sound.play()
                             return
                     elif ID == 1:
-                        if pygame.Rect(red_button).collidepoint(m_pos[0], m_pos[1]):
+                        if pygame.Rect(colour_rects[0]).collidepoint(m_pos[0], m_pos[1]):
                             players[1].colour = red
                             click_sound.play()
                             return
-                        elif pygame.Rect(blue_button).collidepoint(m_pos[0], m_pos[1]):
+                        elif pygame.Rect(colour_rects[1]).collidepoint(m_pos[0], m_pos[1]):
                             players[1].colour = blue
                             click_sound.play()
                             return
-                        elif pygame.Rect(green_button).collidepoint(m_pos[0], m_pos[1]):
+                        elif pygame.Rect(colour_rects[2]).collidepoint(m_pos[0], m_pos[1]):
                             players[1].colour = green
                             click_sound.play()
                             return
-                        elif pygame.Rect(yellow_button).collidepoint(m_pos[0], m_pos[1]):
+                        elif pygame.Rect(colour_rects[3]).collidepoint(m_pos[0], m_pos[1]):
                             players[1].colour = yellow
                             click_sound.play()
                             return
-                        elif pygame.Rect(purple_button).collidepoint(m_pos[0], m_pos[1]):
+                        elif pygame.Rect(colour_rects[4]).collidepoint(m_pos[0], m_pos[1]):
                             players[1].colour = purple
                             click_sound.play()
                             return
-                        elif pygame.Rect(rgb_button).collidepoint(m_pos[0], m_pos[1]):
+                        elif pygame.Rect(colour_rects[5]).collidepoint(m_pos[0], m_pos[1]):
                             players[1].is_RGB = True
                             click_sound.play()
                             return
